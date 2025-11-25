@@ -1,0 +1,15 @@
+# Dafny generated files
+*.cs
+*.csproj
+*.deps.json
+*.dll
+*.pdb
+*.runtimeconfig.json
+
+# binary files with no extension
+# [!.]*/*
+# [!.]*
+# !*/
+
+# obj directories
+obj/
