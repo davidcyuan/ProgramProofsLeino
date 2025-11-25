@@ -7,7 +7,9 @@
 *.runtimeconfig.json
 
 # binary files with no extension
+[!.]*/*
 [!.]*
+!*/
 
 # obj directories
 obj/
