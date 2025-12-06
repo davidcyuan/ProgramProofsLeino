@@ -86,6 +86,20 @@ method MyMethod_two_point_zero(x: int) returns (y: int)
       x - 1 == -1
       0 > -1
 */
+
+// Exercise 2.5
+/*  Come up with predicate, as precise as possible, st. the Hoare triple holds
+  a) {{ 0 <= x }} x := 2 * x {{ ? }}
+    0 <= 2 * x
+    0 <= x
+  b) {{ 0 <= x <= y < 100 }} z := y - x {{ ? }}
+    -x <= 0 <= y - x < 100 - x
+    -x <= 0 <= z < 100 - x
+    0 <= z < 100 - x
+  c) {{ 0 <= x < N }} x := x + 1 {{ ? }}
+    1 <= x + 1 < N + 1
+    1 <= x <= N
+*/
      
 
 method Main() {
