@@ -70,22 +70,56 @@ method MyMethod_two_point_zero(x: int) returns (y: int)
       x + 1 < 101 ==> x + 1 <= 100 (only if x is an integer)
 */
 
-// Exercise 2.4
-/*  Find initial values of x and y st. the triple does NOT hold
-    a) {{ true }} x := 2 * y {{ y <= x }}
-      y := -1
-      x == -2
-      -1 > -2
-    b) {{ x == 3 }} x := x + 1 {{ y == 4 }}
-      y := 1
-      1 != 4
-    c) {{ true }} x := 100 {{ false }}
-      false
-    d) {{ 0 <= x }} x := x - 1 {{ 0 <= x }}
-      x := 0
-      x - 1 == -1
-      0 > -1
-*/
+module Exercise2_4 {
+// Find initial values of x and y st. the triple does NOT hold
+
+  /* a) {{ true }} x := 2 * y {{ y <= x }}
+    y := -1
+    x == -2
+    -1 > -2
+  */
+  method A()
+  {
+    var y := -1;
+    var x := 2 * y;
+    assert (y <= x);
+  }
+
+  /* b) {{ x == 3 }} x := x + 1 {{ y == 4 }}
+    y := 1
+    1 != 4
+  */
+  method B()
+  {
+    var x := 3;
+    var y := 1;
+
+    x := x + 1;
+    assert y == 4;
+  }
+
+  /* c) {{ true }} x := 100 {{ false }}
+    false
+  */
+  method C()
+  {
+    var x := 100;
+    assert false;
+  }
+
+  /* d) {{ 0 <= x }} x := x - 1 {{ 0 <= x }}
+    x := 0
+    x - 1 == -1
+    0 > -1
+  */
+  method D()
+  {
+    var x := 0;
+    
+    x := x - 1;
+    assert 0 <= x;
+  }
+}
 
 // Exercise 2.5
 /*  Come up with predicate, as precise as possible, st. the Hoare triple holds
@@ -100,7 +134,10 @@ method MyMethod_two_point_zero(x: int) returns (y: int)
     1 <= x + 1 < N + 1
     1 <= x <= N
 */
-     
+
+// Exercise 2.6
+/*  Come up with predicate, as precise as possible, st. the Hoare triple holds
+  a) {{ -128 <= }}
 
 method Main() {
   print "Hello, Dafny!";
