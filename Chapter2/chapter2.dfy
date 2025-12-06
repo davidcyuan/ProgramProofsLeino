@@ -202,6 +202,52 @@ module Exercise_2_6 {
   }
 }
 
+module Exercise_2_7 {
+// Come up with predicate, as general as possible, st. the Hoare triple holds
+  method A(x: int)
+  {
+    var x := 400;
+
+    assert x == 400;
+  }
+
+  method B(x: int)
+    requires x % 2 == 1;
+  {
+    var x := x + 3;
+
+    assert x % 2 == 0;
+  }
+
+  method C(x: int, y: int)
+    requires y <= 65
+  {
+    var x := 65;
+    
+    assert y <= x;
+  } 
+}
+
+module Exercise_2_8 {
+// Come up with predicate, as general as possible, st. the Hoare triple holds
+  method A(x: int, y: int)
+    requires x < y
+  {
+    var b := y < 10;
+
+    assert b ==> (x < y);
+  }
+
+  method B(x: int, y: int)
+    requires 0 <= x <= 50
+    requires y < 0
+  {
+    var x, y := 2*x, x + y;
+
+    assert 0 <= x <= 100 && y <= x;
+  }
+}
+
 method Main() {
   print "Hello, Dafny!";
 }
