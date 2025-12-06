@@ -1,0 +1,24 @@
+Dafny:
+  methods:
+    input and returns
+    pre and post conditions
+    opaque body
+    can be non-deterministic
+  functions:
+    input and return type of one value
+    pre conditions
+    clear body
+    body is expression
+    deterministic
+    predicate: a boolean functions
+  assert:
+    states a boolean that must hold at a specific point
+  pre/post conditions:
+    for verification
+    precondition limits how the function/method can be used
+  control flow:
+    for a post condition to hold, it must hold for all flow paths
+  ghost:
+    used for verification only, removed at compile time
+    error if you try to create compiled stuff using ghost stuff
+    on the other hand, you can make ghost stuff using compiled stuff
