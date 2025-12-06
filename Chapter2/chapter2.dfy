@@ -163,9 +163,44 @@ module Exercise_2_5 {
   
 }
 
-// Exercise 2.6
-/*  Come up with predicate, as precise as possible, st. the Hoare triple holds
-  a) {{ -128 <= }}
+module Exercise_2_6 {
+// Come up with predicate, as precise as possible, st. the Hoare triple holds
+
+  method A(x: int) 
+    requires -128 <= x < 0
+  {
+    var x' := 1 - x;
+    /*
+      128 >= -x > 0
+      129 >= 1 - x > 1
+      129 >= x' > 1
+    */
+
+    assert 1 < x' <= 129;
+  }
+
+  method B(x: int, y: int)
+    requires 0 <= x <= y < 100
+  {
+    var y' := y - x;
+    /*
+      -x <= 0 <= y - x < 100 - x
+      0 <= y' < 100 - x
+    */
+
+    assert 0 <= y' < 100 - x;
+  }
+
+  method C(x: int, y: int)
+    requires x % 2 == 0 && y < 100
+  {
+    var x' := y;
+    var y' := x;
+
+    assert x' < 100;
+    assert y' % 2 == 0;
+  }
+}
 
 method Main() {
   print "Hello, Dafny!";
