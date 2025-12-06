@@ -70,7 +70,22 @@ method MyMethod_two_point_zero(x: int) returns (y: int)
       x + 1 < 101 ==> x + 1 <= 100 (only if x is an integer)
 */
 
-
+// Exercise 2.4
+/*  Find initial values of x and y st. the triple does NOT hold
+    a) {{ true }} x := 2 * y {{ y <= x }}
+      y := -1
+      x == -2
+      -1 > -2
+    b) {{ x == 3 }} x := x + 1 {{ y == 4 }}
+      y := 1
+      1 != 4
+    c) {{ true }} x := 100 {{ false }}
+      false
+    d) {{ 0 <= x }} x := x - 1 {{ 0 <= x }}
+      x := 0
+      x - 1 == -1
+      0 > -1
+*/
      
 
 method Main() {
