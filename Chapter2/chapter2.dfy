@@ -248,6 +248,32 @@ module Exercise_2_8 {
   }
 }
 
+module Test_Old {
+  method Test(x: int)
+    requires x == 5
+  {
+    var x := 10;
+
+    assert old(x) == 5;
+  }
+}
+
+module Exercise_2_9 {
+// verify the following program correctly swaps
+  method Swap(x: bv32, y: bv32)
+  {
+    var x' := x ^ y;
+    var y' := x' ^ y;
+    
+    assert x' ^ y' == y && y' == x;
+    x' := x' ^ y';
+
+    assert x' == y && y' == x;
+  }
+
+
+}
+
 method Main() {
   print "Hello, Dafny!";
 }
