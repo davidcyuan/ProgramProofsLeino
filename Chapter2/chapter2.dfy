@@ -274,6 +274,7 @@ module Exercise_2_9 {
   }
 }
 
+// ! not sure why
 module Exercise_2_10 {
 // Find the error in the following proof
   method Error(x: int, y: int)
@@ -287,6 +288,41 @@ module Exercise_2_10 {
       assert x' + y' == 8;
     y' := x' + y';
     assert y' == 8;
+  }
+}
+
+module Exercise_2_11 {
+// Fill in the weakest preconditions
+  method A(x: int, y: int, z: int)
+    requires z > 7
+  {
+      assert 6 < 10 && 7 < z;
+    var x', y' := 6,7;
+
+    assert x' < 10 && y' < z;
+  }
+
+  method B(x: int, y: int)
+    requires x == 4
+  {
+      assert x - 1 == 3;
+      assert (2 * x) - (x + 1) == 3;
+    var x', y' := x + 1, 2 * x;
+
+    assert y' - x' == 3;
+  }
+
+  method C(x: int, y: int)
+    requires x == 2;
+  {
+    var x', y' := x, y;
+      assert (x' + 1) == 3;
+    x' := x' + 1;
+      assert x' == 3;
+      assert (2 * x') - x' == 3;
+    y' := 2 * x';
+
+    assert y' - x' == 3;
   }
 }
 
