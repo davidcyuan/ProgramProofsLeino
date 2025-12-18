@@ -262,16 +262,16 @@ module Exercise_2_9 {
 // verify the following program correctly swaps
   method Swap(x: bv32, y: bv32)
   {
+      assert (x ^ y) ^ y == x;
     var x' := x ^ y;
+      assert x' ^ y == x;
+      assert 0 ^ y == y && x' ^ y == x;
+      assert x' ^ (x' ^ y) == y && (x' ^ y) == x;
     var y' := x' ^ y;
-    
-    assert x' ^ y' == y && y' == x;
+      assert x' ^ y' == y && y' == x;
     x' := x' ^ y';
-
-    assert x' == y && y' == x;
+      assert x' == y && y' == x;
   }
-
-
 }
 
 method Main() {
