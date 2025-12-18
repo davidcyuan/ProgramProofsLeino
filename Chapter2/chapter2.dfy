@@ -274,6 +274,22 @@ module Exercise_2_9 {
   }
 }
 
+module Exercise_2_10 {
+// Find the error in the following proof
+  method Error(x: int, y: int)
+    requires x == 0 && y == 6
+  {
+    var x' := x;
+    var y' := y;
+
+    x' := x' + 2;
+      assert x' == 2 && y' == 6;
+      assert x' + y' == 8;
+    y' := x' + y';
+    assert y' == 8;
+  }
+}
+
 method Main() {
   print "Hello, Dafny!";
 }
