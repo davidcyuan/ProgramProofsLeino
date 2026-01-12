@@ -326,6 +326,53 @@ module Exercise_2_11 {
   }
 }
 
+module Exercise_2_12 {
+  // Prove: {{ true }} var x; x := x * x {{ 0 <= x }}
+  method A(x: int) {
+    var x';
+    assert 0 <= x * x;
+    x' := x * x;
+    assert 0 <= x';
+  }
+}
+
+module Exercise_2_13 {
+  // Calculate the strongest postcondition, simplifying when possible
+
+  method A(x: int, y: int)
+    requires y == 10
+  {
+    var x' := 12;
+    // exists x_0: int :: y == 10 && x' == 12;
+    assert y == 10 && x' == 12;
+  }
+
+  method B(x: int, y: int)
+    requires 98 <= y
+  {
+    var x' := x + 1;
+    // exists x_0: int :: 98 <= y && x' == x_0 + 1;
+    assert 98 <= y && x' == x + 1;
+  }
+
+  method C(x: int, y: int)
+    requires 98 <= x
+  {
+    var x' := x + 1;
+    // exists x_0: int :: 98 <= x_0 && x' == x_0 + 1
+    assert 98 <= x && x' == x + 1;
+  }
+
+  method D(x: int, y: int)
+    requires 98 <= y < x
+  {
+    var x' := 3 * y + x;
+    // exists x_0: int :: 98 <= y < x_0 && x' == 3 * y + x_0
+    assert 98 <= y < x && x' == 3 * y + x;
+  }
+}
+
+
 method Main() {
   print "Hello, Dafny!";
 }
