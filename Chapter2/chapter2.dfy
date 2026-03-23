@@ -374,15 +374,15 @@ module Exercise_2_13 {
 
 module Exercise_2_14 {
   // verify correctness of swap programs using strongest post conditions
-  method Swap1(x: int, y: int)
+  method Swap1(x: int, y: int) returns (x': int, y': int)
+    ensures x' == y && y' == x
   {
     var tmp := x;
-    // exists x_0: int :: tmp == x
     assert tmp == x;
-    var x' := y;
-    assert tmp == x && x' == y;
-    var y' := tmp;
-    assert tmp == x && x' == y && y' == tmp;
+    x' := y;
+    assert x' == y && tmp == x;
+    y' := tmp;
+    assert x' == y && tmp == x && y' == tmp;
     assert x' == y && y' == x;
   }
 }
