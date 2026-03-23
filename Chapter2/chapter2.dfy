@@ -387,6 +387,23 @@ module Exercise_2_14 {
   }
 }
 
+module Exercise_2_15 {
+  // Compute the weakest precondition of the programs with respect to the postcondition:
+  // x + y <= 100
+  method A(x: int, y: int) returns (x': int, y': int)
+    requires 20 + y <= 100
+  {
+    assert 20 + y <= 100;
+    x' := x;
+    y' := y;
+
+    assert 20 + y' <= 100;
+    x' := 20;
+    
+    assert x' + y' <= 100;
+  }
+}
+
 method Main() {
   print "Hello, Dafny!";
 }
