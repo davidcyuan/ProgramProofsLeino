@@ -402,6 +402,107 @@ module Exercise_2_15 {
     
     assert x' + y' <= 100;
   }
+
+  method B(x: int, y: int) returns (x': int, y': int)
+    requires x + y <= 99
+  {
+    x' := x;
+    y' := y;
+
+    assert x' + y' <= 99;
+    assert x' + 1 + y' <= 100;
+    x' := x' + 1;
+
+    assert x' + y' <= 100;
+  }
+
+  method C(x: int, y: int) returns (x': int, y': int)
+    requires 2 * x + y <= 100
+  {
+    x' := x;
+    y' := y;
+
+    assert 2 * x' + y' <= 100;
+    x' := 2 * x';
+
+    assert x' + y' <= 100;
+  }
+
+  method D(x: int, y: int) returns (x': int, y': int)
+    requires -x + y <= 100
+  {
+    x' := x;
+    y' := y;
+
+    assert -x' + y' <= 100;
+    x' := -x';
+
+    assert x' + y' <= 100;
+  }
+
+  method E(x: int, y: int) returns (x': int, y': int)
+    requires y <= 50
+  {
+    x' := x;
+    y' := y;
+
+    assert y' <= 50;
+    assert y' + y' <= 100;
+    x' := y';
+
+    assert x' + y' <= 100;
+  }
+
+  method F(x: int, y: int) returns (x': int, y': int)
+    requires x + 2 * y <= 100
+  {
+    x' := x;
+    y' := y;
+
+    assert x' + y' + y' <= 100;
+    x' := x' + y';
+
+    assert x' + y' <= 100;
+  }
+
+  method G(x: int, y: int) returns (x': int, y': int)
+    requires -x + 2 * y <= 100
+  {
+    x' := x;
+    y' := y;
+
+    assert y' - x' + y' <= 100;
+    x' := y' - x';
+
+    assert x' + y' <= 100;
+  }
+
+  method H(x: int, y: int) returns (x': int, y': int)
+    requires x + 2 * y <= 100
+  {
+    x' := x;
+    y' := y;
+
+    assert x' + y' + y' <= 100;
+    x' := x' + y';
+
+    assert x' + y' <= 100;
+  }
+
+  method I(x: int, y: int) returns (x': int, y': int)
+    requires x + y <= 100
+  {
+    x' := x;
+    y' := y;
+
+    // for all z :: x' + y' <= 100
+    var z;
+
+    assert x' + y' <= 100;
+    z := x' + y';
+
+    assert x' + y' <= 100;
+  }
 }
 
 method Main() {
