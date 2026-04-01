@@ -505,6 +505,36 @@ module Exercise_2_15 {
   }
 }
 
+module Exercise_2_16 {
+  method A(x: int, y: int) returns (x': int, y': int)
+    requires x + y <= 100
+  {
+    x' := x;
+    y' := y;
+
+    x' := 5;
+    
+    // Make the witness explicit in the predicate.
+    // assert x' == 5;
+    // var x_0 := 100 - y';
+    // assert x_0 + y' <= 100;
+    // assert exists w: int {:trigger w + y'} :: w == x_0 && w + y' <= 100;
+
+    assert exists x_0: int :: x_0 + y' <= 100 && x' == 5;
+  }
+
+  // method B(x: int, y: int) returns (x': int, y': int)
+  //   requires x + y <= 100
+  // {
+  //   x' := x;
+  //   y' := y;
+
+  //   x' := x + 1;
+  //   assert exists x_0: int :: x_0 + y' <= 100 && x' == x_0 + 1;
+  // }
+
+}
+
 method Main() {
   print "Hello, Dafny!";
 }
