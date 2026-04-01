@@ -513,25 +513,49 @@ module Exercise_2_16 {
     y' := y;
 
     x' := 5;
-    
+
     // Make the witness explicit in the predicate.
     // assert x' == 5;
     // var x_0 := 100 - y';
     // assert x_0 + y' <= 100;
     // assert exists w: int {:trigger w + y'} :: w == x_0 && w + y' <= 100;
 
-    assert exists x_0: int :: x_0 + y' <= 100 && x' == 5;
+    // assert exists x_0: int :: x_0 + y' <= 100
+    assert x + y' <= 100 && x' == 5;
   }
 
-  // method B(x: int, y: int) returns (x': int, y': int)
-  //   requires x + y <= 100
-  // {
-  //   x' := x;
-  //   y' := y;
+  method B(x: int, y: int) returns (x': int, y': int)
+    requires x + y <= 100
+  {
+    x' := x;
+    y' := y;
 
-  //   x' := x + 1;
-  //   assert exists x_0: int :: x_0 + y' <= 100 && x' == x_0 + 1;
-  // }
+    x' := x + 1;
+    // assert exists x_0: int :: x_0 + y' <= 100 && x' == x_0 + 1
+    assert x + y' <= 100 && x' == x + 1;
+  }
+
+  method C(x: int, y: int) returns (x': int, y': int)
+    requires x + y <= 100
+  {
+    x' := x;
+    y' := y;
+
+    x' := 2 * y;
+    // assert exists x_0: int :: x_0 + y' <= 100 && x' == 2 * y
+    assert x + y' <= 100 && x' == 2 * y;
+  }
+
+  method D(x: int, y: int) returns (x': int, y': int)
+    requires x + y <= 100
+  {
+    x' := x;
+    y' := y;
+
+    var z := x' + y';
+    //assert exists z_0: int :: x' + y' <= 100 && z == x' + y'
+    assert x' + y' <= 100 && z == x' + y';
+  }
 
 }
 
