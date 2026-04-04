@@ -556,7 +556,23 @@ module Exercise_2_16 {
     //assert exists z_0: int :: x' + y' <= 100 && z == x' + y'
     assert x' + y' <= 100 && z == x' + y';
   }
+}
 
+module Exercise_2_17 {
+  method A()
+    // requires forall x: int :: x <= 100
+    requires false;
+  {
+    var x : int;
+    assert x <= 100;
+  }
+
+  method B()
+  {
+    var x : int;
+    // assert x <= 100;
+    assert false;
+  }
 }
 
 method Main() {
