@@ -575,6 +575,34 @@ module Exercise_2_17 {
   }
 }
 
+module Exercise_2_18 {
+  method A(x': int, y': int)
+    // Draw a decorated flow diagram for the conditional statement
+    // if x < 3 { x, y := x + 1, 10; } else { y := x};
+  {
+    var x, y : int := x', y';
+
+    if x < 3 {
+      assert x < 3;
+
+      x, y := x + 1, 10;
+      //exists x_0 :: x_0 < 3 && x == x_0 + 1
+      assert y == 10;
+    }
+    else {
+      assert x >= 3;
+
+      y := x;
+      // exists y_0 :: x >= 3 && y == x
+      assert x >= 3 && y == x;
+    }
+    // (exists x_0 :: x_0 < 3 && x == x_0 + 1 && y == 10) || (y == x && x >= 3)
+    assert (y == 10) || (y == x && x >= 3);
+  }
+  
+  // WP is trivial, as there is no postcondition
+}
+
 method Main() {
   print "Hello, Dafny!";
 }
