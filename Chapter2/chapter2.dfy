@@ -599,8 +599,54 @@ module Exercise_2_18 {
     // (exists x_0 :: x_0 < 3 && x == x_0 + 1 && y == 10) || (y == x && x >= 3)
     assert (y == 10) || (y == x && x >= 3);
   }
-  
   // WP is trivial, as there is no postcondition
+
+  method B_forward(x': int, y': int)
+    requires x' + y' == 100
+  {
+    var x, y : int := x', y';
+
+    if x < 3 {
+      assert x + y == 100 && x < 3;
+
+      x, y := x + 1, 10;
+      //exists x_0, y_0 :: x_0 + y_0 == 100 && x_0 < 3 && x == x_0 + 1 && y == 10
+      //exists x - 1 + y_0 == 100 && x - 1 < 3 && y_0 == 10
+      assert x < 4 && y == 10;
+    }
+    else {
+      assert x + y == 100 && x >= 3;
+
+      y := x;
+      //exists y_0 :: x + y_0 == 100 && x >= 3 && y == x
+      assert x >= 3 && y == x;
+    }
+    //exists y_0 :: (x + y_0 == 101 && x < 4 && y == 10)
+    // || (x + y_0 == 100 && x >= 3 && y == x)
+    assert (x < 4 && y == 10) || (x >= 3 && y == x);
+  }
+
+  method B_backward(x': int, y': int)
+    requires x' == 50
+  {
+    var x, y : int := x', y';
+
+    assert x >= 3 && (x >= 3 ==> x == 50);
+    if x < 3{
+
+      assert x == 89;
+      assert x + 1 + 10 == 100;
+      x, y := x + 1, 10;
+    }
+    else {
+
+      assert x == 50;
+      assert x + x == 100;
+      y := x;
+    }
+
+    assert x + y == 100;
+  }
 }
 
 method Main() {
