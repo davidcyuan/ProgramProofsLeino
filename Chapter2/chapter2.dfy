@@ -649,6 +649,173 @@ module Exercise_2_18 {
   }
 }
 
+module Exercise_2_19 {
+  method A(x': int)
+    requires x' < 100
+  {
+    var x := x';
+    var y;
+
+    if x < 20 {
+      y := 3;
+
+      //SP [[ y := 3, x < 20 && x < 100 ]] == x < 20 && y == 3
+      assert x < 20 && y == 3;
+    }
+    else {
+      y := 2;
+
+      //SP [[ y := 2, x >= 20 && x < 100 ]]
+      assert x >= 20 && x < 100 && y == 2;
+    }
+
+    assert (x < 20 && y == 3) || (x >= 20 && x < 100 && y == 2);
+  }
+}
+
+module Exercise_2_20 {
+  method A(x': int, y' : int)
+    requires x' == 20 || x' == 19
+  {
+    var x := x';
+    var y := y';
+
+    // assert x == 20 || x == 19;
+    assert (x >= 20 ==> x == 20) && (x < 20 ==> x == 19);
+
+    // x >= 20 || x == 19;
+    // x < 20 == > x == 19;
+    if x < 20 {
+      assert x == 19;
+      assert x + 3 == 22;
+      // WP [[ y := 3, x + y == 22]]
+      y := 3;
+    }
+    // x < 20 || x == 20
+    // x >= 20 == > x == 20
+    else {
+      assert x == 20;
+      assert x + 2 == 22;
+      // WP [[ y := 2, x + y == 22]]
+      y := 2;
+    }
+    assert x + y == 22;
+  }
+}
+
+module Exercise_2_21 {
+  method A(x': int)
+    requires x' != 5
+  {
+    var x := x';
+    var y;
+
+    assert x < 8 ==> x != 5;
+    assert (x < 8 ==> x != 5) && (x >= 8 ==> true);
+    // B ==> x != 5 && !B ==> true
+    // B ==> WP [[ S, y < 10]] && !B ==> WP [[ T, y < 10]]
+    if x < 8 {
+      assert x != 5;
+      // !B
+      // B ==> false && !B ==> true
+      // B ==> WP [[ s, y < 10]] && !B == > WP [[ t, y < 10]]
+      // WP [[ S, y < 10 ]]
+      if x == 5 {
+        assert false;
+        // WP [[ y := 10, y < 10]]
+        y := 10;
+      } else {
+        assert true;
+        // WP [[ y := 2, y < 10]]
+        y := 2;
+      }
+    } else{
+      assert true;
+      // WP [[ y := 0, y < 10]]
+      y := 0;
+    }
+
+    assert y < 10;
+  }
+}
+
+module Exercise_2_22 {
+  method A(x': int)
+    requires x' >= 10
+  {
+    var x := x';
+    var y;
+
+    // x >= 10
+    // (x < 10 ==> x >= 20) && (x >= 10 ==> true)
+    if x < 10 {
+      assert x >= 20;
+      // x < 20 ==> false && x >= 20 ==> true;
+      // WP [[ S, y % 2 == 0]]
+      if x < 20 {
+        assert false;
+        y := 1;
+      } else {
+        assert true;
+        y := 2;
+      }
+    } else {
+      assert true;
+      y := 4;
+    }
+
+    assert y % 2 == 0;
+  }
+}
+
+module Exercise_2_23 {
+  method A(x': int, y': int)
+    requires (x' >= 4 && x' < 8)
+    || (x' >= 32 && y' % 2 == 0)
+    || (y' % 2 == 0 && x' < 8)
+  {
+    var x := x';
+    var y := y';
+
+
+    assert (x >= 4 && x < 8)
+    || (x >= 32 && y % 2 == 0)
+    || (y % 2 == 0 && x < 8);
+
+    // (x >= 4 && x < 8)
+    // || (x >= 4 && x >= 32 && y % 2 == 0) == (x >= 32 && y % 2 == 0)
+    // || (y % 2 == 0 && x < 8)
+    // || (y % 2 == 0 && x >= 32)
+    assert (x >= 4 || y % 2 == 0) && (x < 8 || (x >= 32 && y % 2 == 0));
+    assert (x >= 8 || x >= 4 || y % 2 == 0) && (x < 8 || (x >= 32 && y % 2 == 0));
+    assert ( x < 8 ==> (x >= 4 || y % 2 == 0)) && (x >= 8 ==> (x >= 32 && y % 2 == 0));
+    if x < 8 {
+      // x >= 4 || y % 2 == 0
+      // x < 4 ==> y % 2 == 0
+      // (x < 4 ==> y % 2 == 0) && (x >= 4 ==> true)
+      if x < 4 {
+        assert y % 2 == 0;
+        x := x + 1;
+      } else {
+        assert true;
+        y := 2;
+      }
+    } else {
+      // x >= 32 && y % 2 == 0
+      // x >= 32 && (x >= 32 ==> y % 2 == 0)
+      // (x < 32 ==> false) && (x >= 32 ==> y % 2 == 0)
+      if x < 32 {
+        assert false;
+        y := 1;
+      } else {
+        assert y % 2 == 0;
+        // nothing
+      }
+    }
+
+    assert y % 2 == 0;
+  }
+}
 method Main() {
   print "Hello, Dafny!";
 }
