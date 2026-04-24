@@ -859,6 +859,26 @@ module Exercise_2_24 {
   }
 }
 
+module Exercise_2_25 {
+  // a) {{ 0 <= x }} x := x + 1 {{ -2 <= x }} y := 0 {{ -10 <= x }}
+    // valid
+  // b) {{ 0 <= x }} x := x + 1 {{ true }} x := x + 1 {{ 2 <= x }}
+    // the first is valid trivially. the second is now invalid, as x could be anything.
+  // c) {{ 0 <= x }} x := x + 1; x := x + 1 {{ 2 <= x }}
+    // the smallest x can be is 0, afterwards its 2, so valid
+  // d) {{ 0 <= x }} x := 3 * x; x := x + 1 {{ 3 <= x }}
+    // invalid. if x starts as 0, x ends up as 1, which is not >= 3
+  // e) {{ x < 2 }} y := x + 5; x := 2 * x {{ x < y }}
+    // this one is tuff.
+    // y = x_0 + 5
+    // x = 2 * x_0
+    // x_0 < 2
+    // x_0 + x_0 < 2 + x_0
+    // x < 2 + x_0
+    // x < 2 + x_0 < x_0 + 5 == y
+    // valid
+}
+
 method Main() {
   print "Hello, Dafny!";
 }
