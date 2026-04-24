@@ -816,6 +816,49 @@ module Exercise_2_23 {
     assert y % 2 == 0;
   }
 }
+
+module Exercise_2_24 {
+  method A(x': int, y': int)
+    requires x' == 2 || (x' >= 34 && x' < 55)
+  {
+    var x := x';
+    var y := y';
+
+    if x < 34 {
+
+      assert x == 2;
+      if x == 2 {
+
+        assert true;
+        y := x + 1;
+      } else {
+
+        assert false;
+        y := 233;
+      }
+
+      assert 0 <= y < 100;
+    } else {
+
+      assert x < 55;
+      assert (x < 55 ==> true) && (x >= 55 ==> false);
+      if x < 55 {
+
+        assert true;
+        y := 21;
+      } else {
+
+        assert false;
+        y := 144;
+      }
+
+      assert 0 <= y < 100;
+    }
+
+    assert 0 <= y < 100;
+  }
+}
+
 method Main() {
   print "Hello, Dafny!";
 }
