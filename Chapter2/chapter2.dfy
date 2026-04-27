@@ -895,6 +895,34 @@ module Exercise_2_26 {
 
     assert x + y <= 100;
   }
+
+  method B(x': int, y': int) returns (x: int, y: int)
+    requires 2 * x' + y' <= 99
+  {
+    x := x';
+    y := y';
+
+    assert x + x + y <= 99;
+    y := x + y;
+
+    assert x + y <= 99;
+    assert x + 1 + y <= 100;
+    x := x + 1;
+
+    assert x + y <= 100;
+  }
+
+  method C(x': int, y': int) returns (x: int, y: int)
+    requires 2 * x' + y' <= 99
+  {
+    x := x';
+    y := y';
+
+    assert x + 1 + x + y <= 100;
+    x, y := x + 1, x + y;
+
+    assert x + y <= 100;
+  }
 }
 
 method Main() {
