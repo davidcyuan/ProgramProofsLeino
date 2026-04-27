@@ -879,6 +879,24 @@ module Exercise_2_25 {
     // valid
 }
 
+module Exercise_2_26 {
+  //find WP of x + y <= 100, working backwards
+  method A(x': int, y': int) returns (x: int, y: int)
+    requires 2 * x' + y' <= 98
+  {
+    x := x';
+    y := y';
+
+    assert x + 1 + x + 1 + y <= 100;
+    x := x + 1;
+
+    assert x + x + y <= 100;
+    y := x + y;
+
+    assert x + y <= 100;
+  }
+}
+
 method Main() {
   print "Hello, Dafny!";
 }
