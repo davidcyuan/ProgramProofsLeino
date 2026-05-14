@@ -1077,6 +1077,85 @@ module Exercise_2_29 {
   }
 }
 
+module Exercise_2_30 {
+  // SP
+  method A(x': int, y': int) returns (x: int, y: int)
+    requires x' < 10
+  {
+    x := x';
+    y := y';
+
+    if x % 2 == 0 {
+      assert x < 10 && x % 2 == 0;
+      y := y + 3;
+      //exists y_0 :: blah blah && y == y_0 + 3
+      assert x < 10 && x % 2 == 0;
+    }
+    else {
+      assert x < 10 && x % 2 == 1;
+      y := 4;
+      assert x < 10 && x % 2 == 1 && y == 4;
+    }
+    assert (x < 10 && x % 2 == 0) || (x < 10 && x % 2 == 1 && y == 4);
+    assert x < 10 && ((x % 2 == 0) || (x % 2 == 1 && y == 4));
+
+    if y < 10 {
+      assert x < 10 && ((x % 2 == 0) || (x % 2 == 1 && y == 4)) && y < 10;
+      y := x + y;
+      // exists y_0 :: x < 10 && ((x % 2 == 0) || (x % 2 == 1 && y_0 == 4)) && y_0 < 10 && y == x + y_0
+      // y_0 == y - x
+      assert x < 10 && ((x % 2 == 0) || (x % 2 == 1 && y - x == 4)) && y - x < 10;
+    }
+    else {
+      assert x < 10 && ((x % 2 == 0) || (x % 2 == 1 && y == 4)) && y >= 10;
+      assert x < 10 && x % 2 == 0 && y >= 10;
+      x := 8;
+      //exists x_0 :: x_0 < 10 && x_0 % 2 == 0 && y >= 10 && x == 8
+      assert x == 8 && y >= 10;
+    }
+
+    assert (x < 10 && ((x % 2 == 0) || (x % 2 == 1 && y - x == 4)) && y - x < 10) || (x == 8 && y >= 10);
+  }
+
+  // WP
+  method B(x': int, y': int) returns (x: int, y: int)
+    requires x' < 10 || (x' % 2 == 0 && y' >= 7)
+  {
+    x := x';
+    y := y';
+
+    assert x < 10 || (x % 2 == 0 && y >= 7);
+    assert x < 10 || ((x % 2 == 1 || y >= 7) && x % 2 ==0);
+    assert (x%2 == 1 || y >= 7 || x < 10 ) && (x % 2 == 0 || x < 10);
+    assert (x%2 == 1 || (y >= 7 || x < 10)) && (x % 2 == 0 || x < 10);
+    assert x % 2 == 0 ==> (y >= 7 || x < 10) && (x % 2 == 1 ==> x < 10);
+    if x % 2 == 0 {
+      assert y >= 7 || x < 10;
+      assert y + 3 >= 10 || x < 10;
+      y := y + 3;
+    }
+    else{
+      assert x < 10;
+      assert 4 >= 10 || x < 10;
+      y := 4;
+    }
+
+    assert y >= 10 || x < 10;
+    assert (y >= 10 || x < 10) && (y < 10 || true);
+    // y < 10 ==> x < 10 && y >= 10 ==> true
+    if y < 10 {
+      assert x < 10;
+      y := x + y;
+    }
+    else {
+      assert true;
+      x := 8;
+    }
+
+    assert x < 10;
+  }
+}
+
 method Main() {
   print "Hello, Dafny!";
 }
