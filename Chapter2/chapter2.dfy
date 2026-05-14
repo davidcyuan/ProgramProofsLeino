@@ -925,6 +925,158 @@ module Exercise_2_26 {
   }
 }
 
+module Exercise_2_27 {
+  // SP with respect to x + y <= 100
+  method A(x': int, y': int) returns (x: int, y: int)
+    requires x' + y' <= 100
+  {
+    x := x';
+    y := y';
+
+    x := x + 1;
+    //exists x_0 :: x_0 + y <= 100 && x == x_0 + 1
+    // x_0 == x - 1
+    // x - 1 + y <= 100
+    assert x - 1 + y <= 100;
+    assert x + y <= 101;
+
+    y := x + y;
+    //exists y_0 :: x + y_0 <= 101 && y == x + y_0
+    // y_0 :: x + y_0 <= 101 && y_0 == y - x
+    assert x + y - x <= 101;
+    assert y <= 101;
+  }
+
+  method B(x': int, y': int) returns (x: int, y: int)
+    requires x' + y' <= 100
+  {
+    x := x';
+    y := y';
+
+    y := x + y;
+    //exists y_0 :: x + y_0 <= 100 && y == x + y_0
+    // exists y_0 :: x + y_0 <= 100 && y_0 == y - x
+    // x + y - x <= 100
+    assert y <= 100;
+
+    x := x + 1;
+    //exists x_0 :: y <= 100 && x == x_0 + 1
+    assert y <= 100;
+  }
+
+  method C(x': int, y': int) returns (x: int, y: int)
+    requires x' + y' <= 100
+  {
+    x := x';
+    y := y';
+
+    x, y := x + 1, x + y;
+    // exists x_0, y_0 :: x_0 + y_0 <= 100 && x == x_0 + 1 && y == x_0 + y_0
+    // exists x_0, y_0 :: y <= 100 && x == x_0 + 1
+    assert y <= 100;
+  }
+}
+
+module Exercise_2_28 {
+  // SP and WP for x + y < 100
+  method A_SP(x': int, y': int) returns (x: int, y: int)
+    requires x' + y' < 100
+  {
+    x := x';
+    y := y';
+
+    x := 32;
+    //exists x_0 :: x_0 + y < 100 && x == 32
+    assert x == 32;
+
+    y := 40;
+    assert x == 32 && y == 40;
+  }
+
+  method A_WP(x': int, y': int) returns (x: int, y: int)
+  {
+    x := x';
+    y := y';
+
+    assert 32 < 60;
+    x := 32;
+
+    assert x < 60;
+    assert x + 40 < 100;    
+    y := 40;
+
+    assert x + y < 100;
+  }
+
+  method B_SP(x': int, y': int) returns (x: int, y: int)
+    requires x' + y' < 100
+  {
+    x := x';
+    y := y';
+
+    x := x + 2;
+    //exists x_0 :: x_0 + y < 100 && x == x_0 + 2
+    //x_0 = x - 2
+    // x - 2 + y < 100
+    assert x + y < 102;
+    
+    y := y - 3*x;
+    //exists y_0 :: x + y_0 < 102 && y == y_0 - 3*x
+    // y_0 == y + 3*x
+    // x + y + 3*x < 102
+    assert 4*x + y < 102;
+  }
+
+  method B_WP(x': int, y': int) returns (x: int, y: int)
+    requires -2*x' + y' < 104
+  {
+    x := x';
+    y := y';
+
+    assert -2*x + y < 104;
+    assert -2 * x - 4 + y < 100;
+    assert -2 * (x + 2) + y < 100;
+    x := x + 2;
+
+    assert -2*x + y < 100;
+    assert x + y - 3*x < 100;
+    y := y - 3*x;
+
+    assert x + y < 100;
+  }
+}
+
+module Exercise_2_29 {
+  //WP
+  method A(x': int, y': int) returns (x: int, y: int)
+  {
+    x := x';
+    y := y';
+
+    // for all X, true
+    var X;
+
+    assert 10 <= 100;
+    X := 10;
+
+    assert X <= 100;
+  }
+
+  //SP
+  method B(x': int, y': int) returns (x: int, y: int)
+    requires x' <= 100
+  {
+    x := x';
+    y := y';
+
+    var X;
+    //exists X :: x < 100;
+
+    X := 10;
+    assert X == 10;
+  }
+}
+
 method Main() {
   print "Hello, Dafny!";
 }
