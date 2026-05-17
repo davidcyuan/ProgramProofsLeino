@@ -1156,6 +1156,53 @@ module Exercise_2_30 {
   }
 }
 
+module Exercise_2_31 {
+  method {:axiom} Abs(x: int) returns (y: int)
+    ensures 0 <= y && (x == y || x == -y)
+  
+  method A(u : int)
+    requires u != 0
+  {
+
+    // -7*u >= 0 && u < -7*u === u <= 0 && 6*u < 0 === u < 0
+    // ||
+    // 7*u >= 0 && u < 7*u === u >= 0 && 0 < 6*u === 0 < u
+
+    // forall y' :: 0 <= y' && (7 * u == y' || 7 * u == -y) ==> u < y'
+    // forall y' :: (0 <= y && (x == y || x == -y))[x,y := 7 * u, y'] ==> (u < t)[t := y']
+    var t := Abs(7 * u);
+
+    assert u < t;
+  }
+}
+
+module Exercise_2_32 {
+  method {:axiom} Max(x: int, y: int) returns (m: int)
+    ensures m == x || m == y
+    ensures x <= m && y <= m
+  
+  method A(u: int)
+    requires u > 7 || u % 2 == 1
+  {
+    // u >= 7 || u % 2 == 1
+    // u <= 7 ==> u % 2 == 1
+    // 2 * u <= u + 7 ==> (u + 7) % 2 == 0
+    // {one point rule}
+    // forall m' :: (m' == u + 7 && 2 * u <= u + 7 ==> (u + 7) % 2 == 0)
+    // {simplify}
+    // forall m' :: (m' == 2 * u && u + 7 <= 2 * u ==> 2*u % 2 == 0) && (m' == u + 7 && 2 * u <= u + 7 ==> (u + 7) % 2 == 0)
+    // {(A || B) ==> C == > (A ==> C) && (B ==> C)}
+    // forall m' :: (m' == 2 * u && u + 7 <= 2*u || m' == u + 7 && 2 * u <= u + 7) ==> m' % 2 == 0
+    // {simplify}
+    // forall m' :: (m' == 2 * u && 2 * u <= m' && u + 7 <= m' || m' == u + 7 && 2 * u <= m' && u + 7 <= m') ==> m' % 2 == 0
+    // {distribute}
+    // forall m' :: (m' == 2 * u || m' == u + 7) && (2 * u <= m' && u + 7 <= m') ==> m' % 2 == 0
+    var t := Max(2 * u, u + 7);
+
+    assert t % 2 == 0;
+  }
+}
+
 method Main() {
   print "Hello, Dafny!";
 }
